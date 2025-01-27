@@ -17,7 +17,7 @@ set devcmd_vol=!devcmd_vol:\=/!
 
 if "%1" == "build" (
     echo Building image...
-    docker build -t !container_name! -f !container_name!.dockerfile .
+    docker build -t !container_name! --progress plain -f !container_name!.dockerfile .
 ) else if "%1" == "stop" (
     echo Stopping any existing container...
     call :stop_container

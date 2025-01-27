@@ -37,8 +37,10 @@ RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
 # 	./install_nvm.sh
 
 ENV DEVCMD_NODE_VERSION=22
-
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash &&\
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+RUN export NVM_DIR="$HOME/.nvm" &&\
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" &&\
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" &&\
 	nvm install $DEVCMD_NODE_VERSION
 
 ENV IS_DEVCMD=true
