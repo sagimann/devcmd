@@ -12,7 +12,7 @@ Developers can use it as a reference implementation or base for project-specific
   * Linux/Mac: add `export PATH=$PATH:$DEVCMD_ROOT/devcmd` to the end of `~/.bash_profile`
   * Windows: add a `%DEVCMD_ROOT%\devcmd` entry to the end of the `Path` variable under the User Environment Variables (Windows)
 
-* Build the `devcmd` image if needed:
+* Build the `devcmd` image if needed (do this every time to change the image):
   ```
   # Mac/Linux:
   cd $DEVCMD_ROOT/devcmd
