@@ -32,7 +32,7 @@ case "$1" in
                 -e "HOST_GID=$gid" -e "HOST_GROUP=$group" \
                 -e "HOST_DEVCMD_ROOT=$code_vol" \
                 -v /var/run/docker.sock:/var/run/docker.sock \
-                -v "$code_vol:/fab" \
+                -v "$code_vol:/code" \
                 -v "$HOME:/home/$USER" \
                 -d -it "$container_name" "$2"
         else

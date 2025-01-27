@@ -3,7 +3,7 @@ mongo_host="devcmd-mongo"
 mongo_image="docker.io/bitnami/mongodb:5.0.10-debian-11-r3"
 
 start_mongo_container() {
-    kubectl run --namespace fab devcmd-mongo-client --rm --tty -i --restart='Never' --image "$mongo_image" --command -- $*
+    kubectl run --namespace "$DEVCMD_K8S_NAMESPACE" devcmd-mongo-client --rm --tty -i --restart='Never' --image "$mongo_image" --command -- $*
 }
 
 start_mongo_shell() {
@@ -16,7 +16,7 @@ start_mongo_shell() {
 
 get_mongo_password() {
     data_path="$1"
-    kubectl get secret --namespace fab devcmd-mongo -o jsonpath="{.data.$data_path}" | base64 --decode
+    kubectl get secret --namespace "$DEVCMD_K8S_NAMESPACE" devcmd-mongo -o jsonpath="{.data.$data_path}" | base64 --decode
 }
 
 case $1 in
@@ -28,13 +28,13 @@ case $1 in
         start_mongo_container bash
         ;;
     *)
-        db_user="fabuser"
+        db_user="dbuser"
         if [ "$1" != "" ]; then db_user="$1"; fi
         export db_pwd=$(get_mongo_password mongodb-passwords)
         if [ -z "$db_pwd" ]; then
             export db_pwd=$(get_mongo_password mongodb-password)
         fi
-        start_mongo_shell fab "$db_user" "$db_pwd"
+        start_mongo_shell mydb "$db_user" "$db_pwd"
     ;;
 esac
 
