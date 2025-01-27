@@ -1,0 +1,53 @@
+#!/bin/bash
+container_name=devcmd
+if [ -z "$DEVCMD_ROOT" ]; then
+    echo "Error: DEVCMD_ROOT environment variable is not defined"
+    exit 1
+fi
+
+stop_container() {
+    docker container rm -f "$container_name" > /dev/null 2>&1
+}
+
+code_vol="$DEVCMD_ROOT"
+case "$1" in
+    "build")
+        echo "Building image..."
+        docker build -t "$container_name" -f devcmd.dockerfile .
+        ;;
+    "stop")
+        echo "Stopping any existing container..."
+        stop_container
+        ;;
+    "start")
+        docker ps | grep "$container_name" > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Starting container..."
+            stop_container
+            gid=`id -g $USER`
+            group=`groups $USER | cut -d" " -f1`
+            docker run --name "$container_name" \
+                --restart always \
+                -e "HOST_UID=$HOST_UID" -e "HOST_USER=$USER" \
+                -e "HOST_GID=$gid" -e "HOST_GROUP=$group" \
+                -e "HOST_DEVCMD_ROOT=$code_vol" \
+                -v /var/run/docker.sock:/var/run/docker.sock \
+                -v "$code_vol:/fab" \
+                -v "$HOME:/home/$USER" \
+                -d -it "$container_name" "$2"
+        else
+            echo "Container already running"
+        fi
+        ;;
+    *)
+        docker ps | grep "$container_name" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echo "Entering existing container..."
+            docker exec -it "$container_name" bash --login
+        else
+            devcmd start "$1"
+            devcmd
+        fi
+        ;;
+esac
+bash
