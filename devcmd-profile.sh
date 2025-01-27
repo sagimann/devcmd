@@ -1,6 +1,6 @@
-export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S)\]\ "
-
 if [ -z "$DEVCMD_ENV" ]; then DEVCMD_ENV=local; fi
+
+export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S) \| $DEVCMD_ENV\]\ "
 
 devcmd_config="$DEVCMD_ROOT/.devcmd/$DEVCMD_ENV.env"
 if [ -f "$devcmd_config" ]; then

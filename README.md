@@ -55,11 +55,6 @@ From a new terminal:
   (except for terminal-specific state of course)
   * The container remains detached so you can later quickly open more shells on it
 
-* From within the container, switch cloud envs (zero arguments to watch current):
-  ```
-  devcmd-env [dev|stage|prod]
-  ```
-
 * To remove & stop any existing devcmd container on the host:
   ```
   devcmd stop
