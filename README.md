@@ -45,6 +45,7 @@ From a new terminal:
   * The selected environment is available in the `DEVCMD_ENV` env variable
   * A temporary folder, mapped to `$DEVCMD_ROOT/temp` on the host (created if missing) is available as `DEVCMD_TEMP` env variable in the container
   * The `IS_DEVCMD` env variable is `true` if running inside the DEVCMD container
+  * The prompt always shows the time-of-day - an easy way to check command execution duration
   * The container shares your host's .gitconfig so any git commands from the container can seamlessly access git as if called on the host
   * On Linux/Mac, the new shell uses the same uid/gid as on the host and maps a volume from `$HOME` on the host to `/home/$USER` in the container
   * Docker CLI is available from within the container, it connects to the host's Docker runtime
