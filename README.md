@@ -40,7 +40,8 @@ From a new terminal:
   ```
   devcmd [local|dev|stage|prod|...]
   ```
-  Notes:
+
+* Notes:
   * Includes: Python 3.12, NVM with Node.js 22
   * Your DEVCMD_ROOT folder is available under `/code` in the container. The `DEVCMD_ROOT` env variable in the container points to it
   * The selected environment is available in the `DEVCMD_ENV` env variable
@@ -60,3 +61,6 @@ From a new terminal:
   ```
   devcmd stop
   ```
+
+* Known limitations
+  * Intense I/O operations like long builds tend to run slower via the container due to the fact that the host's code volume accessed via a mount rather than directly
